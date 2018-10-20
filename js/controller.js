@@ -63,7 +63,7 @@ export default class Controller {
 			const top = -thickness / 2;
 			const bottom = thickness / 2;
 
-			context.rotate(2 * Math.PI / numCenterLines);
+			context.rotate(Math.PI / numCenterLines);
 
 			context.moveTo(-size - skew/2, top);
 			context.lineTo( size - skew/2, top);
