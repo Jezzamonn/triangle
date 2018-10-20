@@ -22,8 +22,8 @@ export default class Controller {
 		context.scale(scaleAmt, scaleAmt);
 		
 		const size = 500;
-		const thickness = 50;
-		const numLines = 4;
+		const thickness = 20;
+		const numLines = 6;
 
 		context.beginPath();
 		context.fillStyle = 'black';
