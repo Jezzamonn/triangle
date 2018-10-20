@@ -23,7 +23,7 @@ export default class Controller {
 		
 		const size = 500;
 		const thickness = 50;
-		const numLines = 6;
+		const numLines = 4;
 
 		context.beginPath();
 		context.fillStyle = 'black';
