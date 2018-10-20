@@ -44,7 +44,7 @@ export default class Controller {
 			const top = offset - thickness / 2;
 			const bottom = offset + thickness / 2;
 
-			const slideSlowAmt = 1;
+			const slideSlowAmt = 0.6;
 			let slideAmt = divideInterval(localAnimAmt, 0.5 - slideSlowAmt, 1 + slideSlowAmt);
 			slideAmt = easeInOut(slideAmt, 3);
 			const slide = slurp(0, 2 * size, slideAmt)
