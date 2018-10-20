@@ -25,6 +25,10 @@ export default class Controller {
 		const thickness = 20;
 		const numLines = 6;
 
+		const skewAngle = 2 * Math.PI / numLines;
+		const skewAmt = 1 / Math.tan(skewAngle);
+		const skew = thickness * skewAmt;
+
 		context.beginPath();
 		context.fillStyle = 'black';
 
@@ -45,10 +49,10 @@ export default class Controller {
 	
 			context.rotate(2 * Math.PI / numLines);
 
-			context.moveTo(-size + slide, top);
-			context.lineTo( size + slide, top);
-			context.lineTo( size + slide, bottom);
-			context.lineTo(-size + slide, bottom);
+			context.moveTo(-size + slide - skew/2, top);
+			context.lineTo( size + slide - skew/2, top);
+			context.lineTo( size + slide + skew/2, bottom);
+			context.lineTo(-size + slide + skew/2, bottom);
 			context.closePath();
 		}
 
@@ -59,10 +63,10 @@ export default class Controller {
 
 			context.rotate(2 * Math.PI / numCenterLines);
 
-			context.moveTo(-size, top);
-			context.lineTo(size, top);
-			context.lineTo(size, bottom);
-			context.lineTo(-size, bottom);
+			context.moveTo(-size - skew/2, top);
+			context.lineTo( size - skew/2, top);
+			context.lineTo( size + skew/2, bottom);
+			context.lineTo(-size + skew/2, bottom);
 			context.closePath();
 		}
 
