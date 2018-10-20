@@ -34,7 +34,11 @@ export default class Controller {
 
 		for (let i = 0; i < numLines; i ++) {
 			const localAnimAmt = (this.animAmt + 0 * i) % 1;
-			const offsetAmt = easeInOut(loop(localAnimAmt), 3);
+
+			const timingCheatAmt = 0.15;
+			const cheatedAnimAmt = slurp(timingCheatAmt, 1, localAnimAmt);
+
+			const offsetAmt = easeInOut(loop(cheatedAnimAmt), 3);
 			const offset = slurp(thickness, 2 * thickness, offsetAmt);
 
 			const top = offset - thickness / 2;
