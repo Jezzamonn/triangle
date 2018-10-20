@@ -20,7 +20,7 @@ export default class Controller {
 	render(context) {
 		const size = 500;
 		const offset = 100 * easeInOut(loop(this.animAmt), 3);
-		const thickness = 50;
+		const thickness = 100;
 		const numLines = 3;
 
 		const top = offset - thickness / 2;
