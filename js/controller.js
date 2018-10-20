@@ -20,7 +20,7 @@ export default class Controller {
 	render(context) {
 		const size = 500;
 		const thickness = 70;
-		const numLines = 3;
+		const numLines = 6;
 
 		context.beginPath();
 		context.fillStyle = 'black';
