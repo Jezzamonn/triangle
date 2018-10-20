@@ -1,11 +1,11 @@
-import { loop, easeInOut, slurp, experp } from "./util";
+import { loop, easeInOut, slurp, experp, divideInterval } from "./util";
 
 const SIZE = 500;
 
 export default class Controller {
 
 	constructor() {
-		this.period = 5;
+		this.period = 3;
 		this.animAmt = 0;
 	}
 
@@ -44,10 +44,8 @@ export default class Controller {
 			const top = offset - thickness / 2;
 			const bottom = offset + thickness / 2;
 
-			let slideAmt = 2 * this.animAmt - 1;
-			if (slideAmt < 0) {
-				slideAmt = 0;
-			}
+			const slideSlowAmt = 0.3;
+			let slideAmt = divideInterval(this.animAmt, 0.5 - slideSlowAmt, 1 + slideSlowAmt);
 			slideAmt = easeInOut(slideAmt, 3);
 			const slide = slurp(0, 2 * size, slideAmt)
 	
