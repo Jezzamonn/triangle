@@ -33,19 +33,19 @@ export default class Controller {
 		context.fillStyle = 'black';
 
 		for (let i = 0; i < numLines; i ++) {
-			const localAnimAmt = (this.animAmt + 0 * i) % 1;
+			const localAnimAmt = this.animAmt;
 
-			const timingCheatAmt = 0.15;
-			const cheatedAnimAmt = slurp(timingCheatAmt, 1, localAnimAmt);
-
-			const offsetAmt = easeInOut(loop(cheatedAnimAmt), 3);
+			let offsetAmt = divideInterval(localAnimAmt, 0, 0.5);
+			const timingCheatAmt = 0.2;
+			offsetAmt = slurp(timingCheatAmt, 1, offsetAmt);
+			offsetAmt = easeInOut(offsetAmt, 4);
 			const offset = slurp(thickness, 2 * thickness, offsetAmt);
 
 			const top = offset - thickness / 2;
 			const bottom = offset + thickness / 2;
 
-			const slideSlowAmt = 0.3;
-			let slideAmt = divideInterval(this.animAmt, 0.5 - slideSlowAmt, 1 + slideSlowAmt);
+			const slideSlowAmt = 1;
+			let slideAmt = divideInterval(localAnimAmt, 0.5 - slideSlowAmt, 1 + slideSlowAmt);
 			slideAmt = easeInOut(slideAmt, 3);
 			const slide = slurp(0, 2 * size, slideAmt)
 	
