@@ -19,16 +19,16 @@ export default class Controller {
 	 */
 	render(context) {
 		const size = 500;
-		const thickness = 70;
+		const thickness = 50;
 		const numLines = 6;
 
 		context.beginPath();
 		context.fillStyle = 'black';
 
 		for (let i = 0; i < numLines; i ++) {
-			const localAnimAmt = (this.animAmt + 0.01 * i) % 1;
+			const localAnimAmt = (this.animAmt + 0 * i) % 1;
 			const offsetAmt = easeInOut(loop(localAnimAmt), 3);
-			const offset = slurp(0, 100, offsetAmt);
+			const offset = slurp(thickness / 2, thickness, offsetAmt);
 			const top = offset - thickness / 2;
 			const bottom = offset + thickness / 2;
 	
