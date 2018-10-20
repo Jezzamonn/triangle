@@ -10,7 +10,7 @@ export default class Controller {
 	}
 
 	update(dt) {
-		this.animAmt += dt / this.period;
+		this.animAmt += 1 - (dt / this.period);
 		this.animAmt %= 1;
 	}
 
