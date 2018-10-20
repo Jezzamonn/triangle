@@ -26,7 +26,7 @@ export default class Controller {
 		context.fillStyle = 'black';
 
 		for (let i = 0; i < numLines; i ++) {
-			const localAnimAmt = (this.animAmt + 0.1 * i) % 1;
+			const localAnimAmt = (this.animAmt + 0.01 * i) % 1;
 			const offsetAmt = easeInOut(loop(localAnimAmt), 3);
 			const offset = slurp(0, 100, offsetAmt);
 			const top = offset - thickness / 2;
