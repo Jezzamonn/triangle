@@ -1,4 +1,4 @@
-import { loop, easeInOut, slurp } from "./util";
+import { loop, easeInOut, slurp, experp } from "./util";
 
 const SIZE = 500;
 
@@ -18,6 +18,9 @@ export default class Controller {
 	 * @param {CanvasRenderingContext2D} context 
 	 */
 	render(context) {
+		const scaleAmt = experp(1, 3, this.animAmt);
+		context.scale(scaleAmt, scaleAmt);
+		
 		const size = 500;
 		const thickness = 50;
 		const numLines = 6;
