@@ -1,3 +1,5 @@
+import { loop, easeInOut } from "./util";
+
 const SIZE = 500;
 
 export default class Controller {
@@ -17,7 +19,7 @@ export default class Controller {
 	 */
 	render(context) {
 		const size = 500;
-		const offset = 100 * this.animAmt;
+		const offset = 100 * easeInOut(loop(this.animAmt), 3);
 		const thickness = 50;
 		const numLines = 3;
 
