@@ -8,6 +8,9 @@ import {execFile} from 'child_process'
 import format from 'string-format';
 import filesize from 'filesize';
 
+const baseWidth = 500;
+const baseHeight = 500;
+
 function renderFrame(context, controller, width, height) {
     context.resetTransform();
     context.fillStyle = 'white';
@@ -27,8 +30,17 @@ function averageImageDatas(imageDatas, outImageData) {
     return outImageData;
 }
 
-function generateGif(controller, options, outFileName) {
-    const {width, height, fps, numSubFrames, length} = options;
+function generatePng(controller, {width, height, time = 0}, outFileName) {
+    const canvas = new Canvas(width, height);
+    const context = canvas.getContext('2d');
+    controller.update(time);
+    renderFrame(context, controller, width, height);
+
+    fs.writeFileSync(outFileName, canvas.toBuffer());
+    console.log('saved png to ' + outFileName);
+}
+
+function generateGif(controller, {width, height, fps, numSubFrames, length}, outFileName) {
     // we wrap this whole thing in a promise so we can deal with the async nature of dealing with the file.
     return new Promise((resolve, reject) => {
         const canvas = new Canvas(width, height);
@@ -100,16 +112,23 @@ function optimiseGif(inFileName, outFileName) {
 }
 
 function main() {
-    const controller = new Controller();
-    const options = {
+    const pngController = new Controller();
+    const pngOptions = {
+        width: 500,
+        height: 500,
+        time: pngController.period / 2,
+    }
+    generatePng(pngController, pngOptions, 'build/image.png');
+
+    const gifController = new Controller();
+    const gifOptions = {
         width: 500,
         height: 500,
         fps: 30,
         numSubFrames: 4,
-        length: controller.period,
+        length: gifController.period,
     }
-
-    generateGif(controller, options, 'build/gen.gif')
+    generateGif(gifController, gifOptions, 'build/gen.gif')
         .then(() => optimiseGif('build/gen.gif', 'build/opt.gif'))
         .catch(err => console.log('Something went wrong!\n' + err));
 }
