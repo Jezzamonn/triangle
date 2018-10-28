@@ -11,14 +11,15 @@ import filesize from 'filesize';
 const baseWidth = 500;
 const baseHeight = 500;
 
-function renderFrame(context, controller, width, height) {
+function renderFrame(context, controller, width, height, scale=1) {
     context.resetTransform();
     context.fillStyle = 'white';
     context.fillRect(0, 0, width, height);
 
     // Set origin to middle.
     context.translate(width / 2, height / 2);
-    
+    context.scale(scale, scale);
+
     controller.render(context);
 }
 
@@ -30,11 +31,11 @@ function averageImageDatas(imageDatas, outImageData) {
     return outImageData;
 }
 
-function generatePng(controller, {width, height, time = 0}, outFileName) {
+function generatePng(controller, {width, height, scale = 1, time = 0}, outFileName) {
     const canvas = new Canvas(width, height);
     const context = canvas.getContext('2d');
     controller.update(time);
-    renderFrame(context, controller, width, height);
+    renderFrame(context, controller, width, height, scale);
 
     fs.writeFileSync(outFileName, canvas.toBuffer());
     console.log('saved png to ' + outFileName);
@@ -119,6 +120,15 @@ function main() {
         time: pngController.period / 2,
     }
     generatePng(pngController, pngOptions, 'build/image.png');
+
+    const previewController = new Controller();
+    const previewOptions = {
+        width: 1200,
+        height: 700,
+        scale: 2,
+        time: previewController.period / 2,
+    }
+    generatePng(previewController, previewOptions, 'preview.png');
 
     const gifController = new Controller();
     const gifOptions = {
