@@ -5,12 +5,12 @@ const SIZE = 500;
 export default class Controller {
 
 	constructor() {
-		this.period = 3;
+		this.period = 5;
 		this.animAmt = 0;
 	}
 
 	update(dt) {
-		this.animAmt += 1 - (dt / this.period);
+		this.animAmt += dt / this.period;
 		this.animAmt %= 1;
 	}
 
@@ -18,12 +18,10 @@ export default class Controller {
 	 * @param {CanvasRenderingContext2D} context 
 	 */
 	render(context) {
-		const scaleAmt = experp(1, 3, this.animAmt);
-		context.scale(scaleAmt, scaleAmt);
-		
 		const size = 500;
-		const thickness = 20;
-		const numLines = 6;
+		const thickness = 30;
+		const numLines = 3;
+		const offsetChange = 60;
 
 		const skewAngle = 2 * Math.PI / numLines;
 		const skewAmt = 1 / Math.tan(skewAngle);
@@ -33,22 +31,23 @@ export default class Controller {
 		context.fillStyle = 'black';
 
 		for (let i = 0; i < numLines; i ++) {
-			const localAnimAmt = this.animAmt;
+			const localAnimAmt = loop(this.animAmt);
 
-			let offsetAmt = divideInterval(localAnimAmt, 0, 0.5);
+			const slideSlowAmt = 0.4;
+			let slideAmt = localAnimAmt - 0.1 * i;
+			slideAmt = divideInterval(slideAmt, 0 - slideSlowAmt, 0.5 + slideSlowAmt);
+			slideAmt = easeInOut(slideAmt, 3);
+			const slide = slurp(2 * size, 0, slideAmt)
+	
+			let offsetAmt = divideInterval(localAnimAmt, 0.6, 1);
 			const timingCheatAmt = 0.2;
 			offsetAmt = slurp(timingCheatAmt, 1, offsetAmt);
 			offsetAmt = easeInOut(offsetAmt, 4);
-			const offset = slurp(thickness, 2 * thickness, offsetAmt);
+			const offset = slurp(0, offsetChange, offsetAmt);
 
 			const top = offset - thickness / 2;
 			const bottom = offset + thickness / 2;
 
-			const slideSlowAmt = 0.6;
-			let slideAmt = divideInterval(localAnimAmt, 0.5 - slideSlowAmt, 1 + slideSlowAmt);
-			slideAmt = easeInOut(slideAmt, 3);
-			const slide = slurp(0, 2 * size, slideAmt)
-	
 			context.rotate(2 * Math.PI / numLines);
 
 			context.moveTo(-size + slide - skew/2, top);
@@ -57,21 +56,6 @@ export default class Controller {
 			context.lineTo(-size + slide + skew/2, bottom);
 			context.closePath();
 		}
-
-		const numCenterLines = numLines / 2;
-		for (let i = 0; i < numCenterLines; i ++) {
-			const top = -thickness / 2;
-			const bottom = thickness / 2;
-
-			context.rotate(Math.PI / numCenterLines);
-
-			context.moveTo(-size - skew/2, top);
-			context.lineTo( size - skew/2, top);
-			context.lineTo( size + skew/2, bottom);
-			context.lineTo(-size + skew/2, bottom);
-			context.closePath();
-		}
-
 
 		context.fill('evenodd')
 
