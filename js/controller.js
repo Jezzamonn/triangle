@@ -37,7 +37,12 @@ export default class Controller {
 			let slideAmt = localAnimAmt - 0.1 * i;
 			slideAmt = divideInterval(slideAmt, 0 - slideSlowAmt, 0.5 + slideSlowAmt);
 			slideAmt = easeInOut(slideAmt, 3);
-			const slide = slurp(2 * size, 0, slideAmt)
+
+			let slide = slurp(2 * size, 0, slideAmt)
+			// extra thing to make them leave in a different direction
+			if (this.animAmt > 0.5) {
+				slide = -slide;
+			}
 	
 			let offsetAmt = divideInterval(localAnimAmt, 0.6, 1);
 			const timingCheatAmt = 0.2;
